@@ -1,3 +1,5 @@
+![Travis ci image](https://travis-ci.org/guillaumebreton/gocardless-scala.svg?branch=develop)
+
 gocardless-scala
 ================
 
