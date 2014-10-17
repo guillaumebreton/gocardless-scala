@@ -1,0 +1,15 @@
+{
+  "customers": {
+    "email": "user@example.com",
+    "given_name": "Frank",
+    "family_name": "Osborne",
+    "address_line1": "27 Acer Road",
+    "address_line2": "Apt 2",
+    "city": "London",
+    "postal_code": "E8 3GX",
+    "country_code": "GB",
+    "metadata": {
+      "salesforce_id": "ABCD1234"
+    }
+  }
+}
