@@ -1,4 +1,4 @@
-package octalmind.gocardless.resources
+package octalmind.gocardless.api
 
 import org.joda.time._
 import scala.concurrent.{ ExecutionContext, Future }
