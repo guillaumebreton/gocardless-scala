@@ -1,0 +1,9 @@
+{
+  "api_keys": {
+    "name": "Example api key",
+    "webhook_url": "https://example.com/webhooks",
+    "links": {
+      "role": "RO123"
+    }
+  }
+}

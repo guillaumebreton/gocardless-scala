@@ -10,7 +10,7 @@ import spray.json._
 
 import octalmind.gocardless.HttpClient
 
-abstract class Api[U: JsonFormat: Manifest, T: JsonFormat: Manifest](implicit client: HttpClient) {
+abstract class Api[U: JsonFormat: Manifest, T: JsonFormat: Manifest, V: JsonFormat: Manifest](implicit client: HttpClient) {
 
   import octalmind.gocardless.model._
   import octalmind.gocardless.model.WrapperProtocol._
@@ -29,14 +29,16 @@ abstract class Api[U: JsonFormat: Manifest, T: JsonFormat: Manifest](implicit cl
     p(Get(url))
   }
 
-  def list(url: String, query: Map[String, AnyRef]): Future[Cursor[U]] = {
+  def list(url: String, query: Map[String, Any]): Future[Cursor[U]] = {
     val stringQuery = query.map(k ⇒ (k._1, k._2.toString()))
     val uri = Uri(url).copy(query = Uri.Query(stringQuery))
     cursor(Get(uri))
   }
 
-  def put(url: String, request: T): Future[Wrapper[U]] = p(Put(url, Wrapper[T](request)))
+  def put(url: String, request: V): Future[Wrapper[U]] = p(Put(url, Wrapper[V](request)))
 
   def post(url: String, request: T): Future[Wrapper[U]] = p(Post(url, Wrapper[T](request)))
+
+  def post(url: String): Future[Wrapper[U]] = p(Post(url))
 
 }

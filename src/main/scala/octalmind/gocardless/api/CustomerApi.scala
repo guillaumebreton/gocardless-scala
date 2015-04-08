@@ -22,7 +22,7 @@ object CustomerApi {
   def apply(implicit client: HttpClient) = new CustomerApi()
 
 }
-class CustomerApi(implicit client: HttpClient) extends CommonApi[Customer, CustomerRequest] {
+class CustomerApi(implicit client: HttpClient) extends CommonApi[Customer, CustomerRequest, CustomerRequest] {
 
   def url = "/customers/%s"
 

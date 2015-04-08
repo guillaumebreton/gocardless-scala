@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "cursors": {
+      "before": null,
+      "after": "AK123"
+    },
+    "limit": 50
+  },
+  "api_keys": [{
+    "id": "AK123",
+    "created_at": "2014-05-08T17:01:06.000Z",
+    "enabled": true,
+    "key": "123ABC456DEF",
+    "name": "Example api key",
+    "webhook_url": "https://example.com/webhooks",
+    "links": {
+      "role": "RO123"
+    }
+  }
+  ]
+}
