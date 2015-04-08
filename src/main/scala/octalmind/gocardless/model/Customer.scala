@@ -7,7 +7,7 @@ import DateTimeProtocol._
 
 object CustomerProtocol extends DefaultJsonProtocol {
   case class Customer(
-    id: Option[String],
+    id: String,
     created_at: DateTime,
     email: String,
     given_name: String,

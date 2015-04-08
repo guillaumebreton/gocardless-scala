@@ -14,11 +14,11 @@ import octalmind.gocardless.model.CursorProtocol._
 import spray.json._
 import spray.http.HttpMethods
 
-class CustomerApiSpec extends WordSpec with MustMatchers {
+class CustomerApiSpec extends ApiSpec {
 
   "return the list of customers" in {
 
-    val response = cursor[Customer]("list_customers.json")
+    val response = cursor[Customer]("customers/list_customers.json")
     val client = FakeHttpClient(response.toJson)
     val api = CustomerApi(client)
 
@@ -37,9 +37,9 @@ class CustomerApiSpec extends WordSpec with MustMatchers {
 
   }
   "get a single customer" in {
-    val response = wrap[Customer]("get_customer.json")
+    val response = wrap[Customer]("customers/get_customer.json")
     val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id.get
+    val id = response.entity.id
     val result = Await.result(CustomerApi(client).retrieve(id), 1.second)
     client.called must equal(true)
     client.uri must equal(getQuery("/customers/" + id))
@@ -48,8 +48,8 @@ class CustomerApiSpec extends WordSpec with MustMatchers {
   }
   "create a customer" in {
 
-    val request = wrap[CustomerRequest]("create_customer_request.json")
-    val response = wrap[Customer]("create_customer_response.json")
+    val request = wrap[CustomerRequest]("customers/create_customer_request.json")
+    val response = wrap[Customer]("customers/create_customer_response.json")
 
     val client = FakeHttpClient(response.toJson)
     val result = Await.result(CustomerApi(client).create(request.entity), 1.second)
@@ -62,11 +62,11 @@ class CustomerApiSpec extends WordSpec with MustMatchers {
 
   }
   "update a customer" in {
-    val request = wrap[CustomerRequest]("update_customer_request.json")
-    val response = wrap[Customer]("update_customer_response.json")
+    val request = wrap[CustomerRequest]("customers/update_customer_request.json")
+    val response = wrap[Customer]("customers/update_customer_response.json")
 
     val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id.get
+    val id = response.entity.id
     val result = Await.result(CustomerApi(client).update(id, request.entity), 1.second)
     client.called must equal(true)
     client.entity[CustomerRequest] must equal(request)
@@ -74,20 +74,5 @@ class CustomerApiSpec extends WordSpec with MustMatchers {
     client.method must equal(HttpMethods.PUT)
     result must equal(response.entity)
   }
-
-  private[this] def cursor[T: JsonFormat: reflect.ClassTag](filename: String): Cursor[T] = {
-    val request = scala.io.Source.fromFile("src/test/resources/" + filename).mkString
-    request.parseJson.convertTo[Cursor[T]]
-  }
-  private[this] def wrap[T: JsonFormat: reflect.ClassTag](filename: String): Wrapper[T] = {
-    val request = scala.io.Source.fromFile("src/test/resources/" + filename).mkString
-    request.parseJson.convertTo[Wrapper[T]]
-  }
-  private[this] def getQuery(url: String, map: Map[String, AnyRef] = Map()): String = {
-    import spray.http._
-    val stringQuery = map.map(k ⇒ (k._1, k._2.toString()))
-    Uri(url).copy(query = Uri.Query(stringQuery)).toString()
-  }
-
 }
 
