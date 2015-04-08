@@ -39,7 +39,7 @@ class CustomerApiSpec extends ApiSpec {
   "get a single customer" in {
     val response = wrap[Customer]("customers/get_customer.json")
     val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id.get
+    val id = response.entity.id
     val result = Await.result(CustomerApi(client).retrieve(id), 1.second)
     client.called must equal(true)
     client.uri must equal(getQuery("/customers/" + id))
@@ -66,7 +66,7 @@ class CustomerApiSpec extends ApiSpec {
     val response = wrap[Customer]("customers/update_customer_response.json")
 
     val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id.get
+    val id = response.entity.id
     val result = Await.result(CustomerApi(client).update(id, request.entity), 1.second)
     client.called must equal(true)
     client.entity[CustomerRequest] must equal(request)
