@@ -18,7 +18,7 @@ class CustomerApiSpec extends ApiSpec {
 
   "return the list of customers" in {
 
-    val response = cursor[Customer]("list_customers.json")
+    val response = cursor[Customer]("customers/list_customers.json")
     val client = FakeHttpClient(response.toJson)
     val api = CustomerApi(client)
 
@@ -37,7 +37,7 @@ class CustomerApiSpec extends ApiSpec {
 
   }
   "get a single customer" in {
-    val response = wrap[Customer]("get_customer.json")
+    val response = wrap[Customer]("customers/get_customer.json")
     val client = FakeHttpClient(response.toJson)
     val id = response.entity.id.get
     val result = Await.result(CustomerApi(client).retrieve(id), 1.second)
@@ -48,8 +48,8 @@ class CustomerApiSpec extends ApiSpec {
   }
   "create a customer" in {
 
-    val request = wrap[CustomerRequest]("create_customer_request.json")
-    val response = wrap[Customer]("create_customer_response.json")
+    val request = wrap[CustomerRequest]("customers/create_customer_request.json")
+    val response = wrap[Customer]("customers/create_customer_response.json")
 
     val client = FakeHttpClient(response.toJson)
     val result = Await.result(CustomerApi(client).create(request.entity), 1.second)
@@ -62,8 +62,8 @@ class CustomerApiSpec extends ApiSpec {
 
   }
   "update a customer" in {
-    val request = wrap[CustomerRequest]("update_customer_request.json")
-    val response = wrap[Customer]("update_customer_response.json")
+    val request = wrap[CustomerRequest]("customers/update_customer_request.json")
+    val response = wrap[Customer]("customers/update_customer_response.json")
 
     val client = FakeHttpClient(response.toJson)
     val id = response.entity.id.get
