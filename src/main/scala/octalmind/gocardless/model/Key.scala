@@ -5,7 +5,7 @@ import spray.json._
 
 import DateTimeProtocol._
 
-object KeyProtocol extends DefaultJsonProtocol {
+object ApiKeyProtocol extends DefaultJsonProtocol {
 
   case class ApiKey(
     id: String,

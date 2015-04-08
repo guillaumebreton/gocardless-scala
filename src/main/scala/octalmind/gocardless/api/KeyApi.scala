@@ -2,7 +2,7 @@
 package octalmind.gocardless.api
 
 import octalmind.gocardless.HttpClient
-import octalmind.gocardless.model.KeyProtocol._
+import octalmind.gocardless.model.ApiKeyProtocol._
 import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
 

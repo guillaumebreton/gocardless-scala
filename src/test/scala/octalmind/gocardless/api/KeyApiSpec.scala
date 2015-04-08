@@ -7,7 +7,7 @@ import scala.concurrent._
 import octalmind.gocardless.model._
 import octalmind.gocardless.FakeHttpClient
 
-import octalmind.gocardless.model.KeyProtocol._
+import octalmind.gocardless.model.ApiKeyProtocol._
 import octalmind.gocardless.model.WrapperProtocol._
 import octalmind.gocardless.model.CursorProtocol._
 import spray.json._
