@@ -1,0 +1,9 @@
+{
+  "creditors": {
+    "name": "The Wine Club",
+    "address_line1": "9 Acer Gardens",
+    "city": "Birmingham",
+    "postal_code": "B4 7NJ",
+    "country_code": "GB"
+  }
+}

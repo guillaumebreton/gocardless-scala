@@ -19,8 +19,6 @@ abstract class Api[U: JsonFormat: Manifest, T: JsonFormat: Manifest, V: JsonForm
   import spray.httpx.SprayJsonSupport._
   import spray.json.DefaultJsonProtocol._
 
-  // val urlFormatter = s"$baseUrl/%s"
-
   def p = client.pipeline ~> unmarshal[Wrapper[U]]
 
   def cursor = client.pipeline ~> unmarshal[Cursor[U]]
