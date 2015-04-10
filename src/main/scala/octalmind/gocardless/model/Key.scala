@@ -7,6 +7,9 @@ import DateTimeProtocol._
 
 object ApiKeyProtocol extends DefaultJsonProtocol {
 
+  case class ApiKeyLinks(
+    role: String)
+
   case class ApiKey(
     id: String,
     created_at: DateTime,
@@ -14,7 +17,7 @@ object ApiKeyProtocol extends DefaultJsonProtocol {
     key: String,
     name: String,
     webhook_url: String,
-    links: Map[String, String])
+    links: ApiKeyLinks)
 
   case class ApiKeyCreateRequest(
     name: Option[String],
@@ -25,6 +28,7 @@ object ApiKeyProtocol extends DefaultJsonProtocol {
     name: Option[String],
     webhook_url: Option[String])
 
+  implicit val role = jsonFormat1(ApiKeyLinks.apply)
   implicit val key = jsonFormat7(ApiKey.apply)
   implicit val keyCreateRequest = jsonFormat3(ApiKeyCreateRequest.apply)
   implicit val keyUpdateRequest = jsonFormat2(ApiKeyUpdateRequest.apply)

@@ -22,7 +22,6 @@ trait HttpClient {
 
 class SprayHttpClient extends HttpClient {
 
-
   val log = LoggerFactory.getLogger("octalmind.gocardless.api")
 
   private[this] implicit val system = ActorSystem("gocardless-scala-client")
@@ -35,12 +34,11 @@ class SprayHttpClient extends HttpClient {
   val id = configuration.getString("gocardless.api-id")
   val baseUrl = configuration.getString("gocardless.base-url")
 
-
   //Function to log the request
-  val logRequest: HttpRequest => HttpRequest = { r => log.debug("{}", r); r }
+  val logRequest: HttpRequest ⇒ HttpRequest = { r ⇒ log.debug("{}", r); r }
 
   //Function to log the response
-  val logResponse: HttpResponse => HttpResponse = { r => log.debug("{}", r); r }
+  val logResponse: HttpResponse ⇒ HttpResponse = { r ⇒ log.debug("{}", r); r }
 
   //Default pipeline
   val pipeline = (
