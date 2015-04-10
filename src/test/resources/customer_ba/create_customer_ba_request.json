@@ -1,0 +1,11 @@
+{
+  "customer_bank_accounts": {
+    "account_number": "55779911",
+    "sort_code": "200000",
+    "account_holder_name": "Frank Osborne",
+    "country_code": "GB",
+    "links": {
+      "customer": "CU123"
+    }
+  }
+}
