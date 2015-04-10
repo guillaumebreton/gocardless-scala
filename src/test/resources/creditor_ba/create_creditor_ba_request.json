@@ -1,0 +1,12 @@
+{
+  "creditor_bank_accounts": {
+    "account_number": "55779911",
+    "sort_code": "200000",
+    "country_code": "GB",
+    "set_as_default_payout_account": true,
+    "account_holder_name": "Nude Wines",
+    "links": {
+      "creditor": "CR123"
+    }
+  }
+}
