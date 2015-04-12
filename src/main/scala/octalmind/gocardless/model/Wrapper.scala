@@ -29,4 +29,6 @@ object WrapperProtocol extends DefaultJsonProtocol {
     }
 
   }
+  implicit def m[T: JsonFormat: reflect.ClassTag](s: String): Wrapper[T] = s.parseJson.convertTo[Wrapper[T]]
+  implicit def u[T: JsonFormat: reflect.ClassTag](e: Wrapper[T]): String = e.toJson.toString
 }

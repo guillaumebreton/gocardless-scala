@@ -1,6 +1,7 @@
 package octalmind.gocardless
 
 import octalmind.gocardless.api._
+import octalmind.gocardless.http._
 
 object GoCardless {
 
@@ -9,7 +10,7 @@ object GoCardless {
 
 class GoCardless {
 
-  implicit val client: HttpClient = new SprayHttpClient()
+  implicit val client: HttpClient = new AkkaHttpClient()
 
   val customerApi = new CustomerApi()
 

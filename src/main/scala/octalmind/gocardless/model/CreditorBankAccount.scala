@@ -22,15 +22,16 @@ object CreditorBankAccountProtocol extends DefaultJsonProtocol {
 
   case class CreditorBankAccountCreateRequest(
     account_holder_name: String,
-    account_numer: Option[String],
+    account_number: Option[String],
     bank_code: Option[String],
     country_code: Option[String],
     currency: Option[String],
     iban: Option[String],
     metadata: Option[Map[String, String]],
+    set_as_default_payout_account: Option[Boolean],
     links: CreditorBankAccountLinks)
 
   implicit var creditorBankAccountLinks = jsonFormat1(CreditorBankAccountLinks.apply)
   implicit var creditorBankAccount = jsonFormat9(CreditorBankAccount.apply)
-  implicit var creditorBankAccountCreateRequest = jsonFormat8(CreditorBankAccountCreateRequest.apply)
+  implicit var creditorBankAccountCreateRequest = jsonFormat9(CreditorBankAccountCreateRequest.apply)
 }

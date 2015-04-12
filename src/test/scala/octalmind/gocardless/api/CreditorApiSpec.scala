@@ -6,70 +6,68 @@ import scala.concurrent.duration._
 import scala.concurrent._
 
 import octalmind.gocardless.model._
-import octalmind.gocardless.FakeHttpClient
 import org.joda.time._
 
 import octalmind.gocardless.model.CreditorProtocol._
 import octalmind.gocardless.model.WrapperProtocol._
 import octalmind.gocardless.model.CursorProtocol._
 import spray.json._
-import spray.http.HttpMethods
+
+import octalmind.gocardless.http.HttpClient
+import scalaz._
+import Scalaz._
+import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class CreditorApiSpec extends ApiSpec {
 
+  val emptyQuery = Map[String, Any]()
+
   "return the list of creditors" in {
-
-    val response = cursor[Creditor]("creditors/list_creditors.json")
-    val client = FakeHttpClient(response.toJson)
-    val api = CreditorApi(client)
-
+    val response = load("creditors/list_creditors.json")
+    val cursorResponse = cursor[Creditor](response)
     val date = new DateTime()
     val map = Map(
-      "after" -> "CR1",
-      "before" -> "CR2")
-    val result = Await.result(api.query(map), 1.second)
-    client.called must equal(true)
-    client.uri must equal(getQuery("/creditors/", map))
-    result must equal(response)
-
+      "after" -> "CU1",
+      "before" -> "CU2",
+      "created_at_gt" -> date,
+      "created_at_gte" -> date,
+      "created_at_lt" -> date,
+      "created_at_lte" -> date)
+    val client = mock[HttpClient]
+    (client.get _).expects("/creditors/", map).returning(Future { response.right })
+    val result = Await.result(CreditorApi(client).list(map), 1.second)
+    result must equal(cursorResponse.right)
   }
-  "get a single creditor" in {
-    val response = wrap[Creditor]("creditors/get_creditor.json")
-    val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id
-    val result = Await.result(CreditorApi(client).retrieve(id), 1.second)
-    client.called must equal(true)
-    client.uri must equal(getQuery("/creditors/" + id))
-    result must equal(response.entity)
-
+  "get a single customer" in {
+    val response = load("creditors/get_creditor.json")
+    val wrappedResponse = wrap[Creditor](response)
+    val id = wrappedResponse.entity.id
+    val client = mock[HttpClient]
+    (client.get _).expects(getQuery(s"/creditors/$id"), emptyQuery).returning(Future { response.right })
+    val result = Await.result(CreditorApi(client).get(id), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
-  "create a creditor" in {
-
-    val request = wrap[CreditorCreateRequest]("creditors/create_creditor_request.json")
-    val response = wrap[Creditor]("creditors/create_creditor_response.json")
-
-    val client = FakeHttpClient(response.toJson)
-    val result = Await.result(CreditorApi(client).create(request.entity), 1.second)
-
-    client.called must equal(true)
-    client.entity[CreditorCreateRequest] must equal(request)
-    client.uri must equal(getQuery("/creditors/"))
-    client.method must equal(HttpMethods.POST)
-    result must equal(response.entity)
-
+  "create a customer" in {
+    val request = load("creditors/create_creditor_request.json")
+    val response = load("creditors/create_creditor_response.json")
+    val wrappedRequest = wrap[CreditorCreateRequest](request)
+    val wrappedResponse = wrap[Creditor](response)
+    val client = mock[HttpClient]
+    (client.post _).expects("/creditors/", request).returning(Future { response.right })
+    val result = Await.result(CreditorApi(client).create(wrappedRequest.entity), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
-  "update a creditor" in {
-    val request = wrap[CreditorUpdateRequest]("creditors/update_creditor_request.json")
-    val response = wrap[Creditor]("creditors/update_creditor_response.json")
-
-    val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id
-    val result = Await.result(CreditorApi(client).update(id, request.entity), 1.second)
-    client.called must equal(true)
-    client.entity[CreditorUpdateRequest] must equal(request)
-    client.uri must equal(getQuery("/creditors/" + id))
-    client.method must equal(HttpMethods.PUT)
-    result must equal(response.entity)
+  "update a customer" in {
+    val request = load("creditors/update_creditor_request.json")
+    val response = load("creditors/update_creditor_response.json")
+    val wrappedRequest = wrap[CreditorUpdateRequest](request)
+    val wrappedResponse = wrap[Creditor](response)
+    val id = wrappedResponse.entity.id
+    val client = mock[HttpClient]
+    (client.put _).expects(s"/creditors/$id", request).returning(Future { response.right })
+    val result = Await.result(CreditorApi(client).update(id, wrappedRequest.entity), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
 }
 

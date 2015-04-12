@@ -55,4 +55,5 @@ object CursorProtocol extends DefaultJsonProtocol {
         fieldName -> r.items.toJson)
     }
   }
+  implicit def m[T: JsonFormat: reflect.ClassTag](s: String): Cursor[T] = s.parseJson.convertTo[Cursor[T]]
 }
