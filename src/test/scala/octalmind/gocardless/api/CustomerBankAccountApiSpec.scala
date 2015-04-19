@@ -6,84 +6,73 @@ import scala.concurrent.duration._
 import scala.concurrent._
 
 import octalmind.gocardless.model._
-import octalmind.gocardless.FakeHttpClient
+import org.joda.time._
 
 import octalmind.gocardless.model.CustomerBankAccountProtocol._
 import octalmind.gocardless.model.WrapperProtocol._
 import octalmind.gocardless.model.CursorProtocol._
 import spray.json._
-import spray.http.HttpMethods
 
-class CustomerBankAccountSpec extends ApiSpec {
+import octalmind.gocardless.http.HttpClient
+import scalaz._
+import Scalaz._
+import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.ExecutionContext.Implicits.global
 
-  "return the list of bank accounts" in {
+class CustomerBankAccountApiSpec extends ApiSpec {
 
-    val response = cursor[CustomerBankAccount]("customer_ba/list_customer_ba.json")
-    val client = FakeHttpClient(response.toJson)
-    val api = CustomerBankAccountApi(client)
+  val emptyQuery = Map[String, Any]()
 
+  "return the list of customer bank accounts" in {
+    val response = load("customer_ba/list.json")
+    val cursorResponse = cursor[CustomerBankAccount](response)
+    val date = new DateTime()
     val map = Map(
-      "after" -> "CU1",
-      "before" -> "CU2",
+      "after" -> "BA122",
+      "before" -> "BA123",
+      "creditor" -> "CR1",
       "enabled" -> true,
-      "limit" -> 50,
-      "customer" -> "CU123")
-    val result = Await.result(api.query(map), 1.second)
-    client.called must equal(true)
-    client.uri must equal(getQuery("/customer_bank_accounts/", map))
-    result must equal(response)
-
+      "limit" -> 50)
+    val client = mock[HttpClient]
+    (client.get _).expects("/customer_bank_accounts/", map).returning(Future { response.right })
+    val result = Await.result(CustomerBankAccountApi(client).list(map), 1.second)
+    result must equal(cursorResponse.right)
   }
-  "get a single bank account" in {
-    val response = wrap[CustomerBankAccount]("customer_ba/get_customer_ba.json")
-    val client = FakeHttpClient(response.toJson)
-    val id = response.entity.id
-    val result = Await.result(CustomerBankAccountApi(client).retrieve(id), 1.second)
-    client.called must equal(true)
-    client.uri must equal(getQuery("/customer_bank_accounts/" + id))
-    result must equal(response.entity)
-
+  "get a single customer bank account" in {
+    val response = load("customer_ba/get.json")
+    val wrappedResponse = wrap[CustomerBankAccount](response)
+    val id = wrappedResponse.entity.id
+    val client = mock[HttpClient]
+    (client.get _).expects(getQuery(s"/customer_bank_accounts/$id"), emptyQuery).returning(Future { response.right })
+    val result = Await.result(CustomerBankAccountApi(client).get(id), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
-  "create a bank account" in {
-
-    val request = wrap[CustomerBankAccountCreateRequest]("customer_ba/create_customer_ba_request.json")
-    val response = wrap[CustomerBankAccount]("customer_ba/create_customer_ba_response.json")
-
-    val client = FakeHttpClient(response.toJson)
-    val result = Await.result(CustomerBankAccountApi(client).create(request.entity), 1.second)
-
-    client.called must equal(true)
-    client.entity[CustomerBankAccountCreateRequest] must equal(request)
-    client.uri must equal(getQuery("/customer_bank_accounts/"))
-    client.method must equal(HttpMethods.POST)
-    result must equal(response.entity)
+  "create a customer bank account" in {
+    val request = load("customer_ba/create_request.json")
+    val response = load("customer_ba/create_response.json")
+    val wrappedRequest = wrap[CustomerBankAccountCreateRequest](request)
+    val wrappedResponse = wrap[CustomerBankAccount](response)
+    val client = mock[HttpClient]
+    (client.post _).expects("/customer_bank_accounts/", request).returning(Future { response.right })
+    val result = Await.result(CustomerBankAccountApi(client).create(wrappedRequest.entity), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
-
-  "update a bank account" in {
-
-    val request = wrap[CustomerBankAccountUpdateRequest]("customer_ba/update_customer_ba_request.json")
-    val response = wrap[CustomerBankAccount]("customer_ba/update_customer_ba_response.json")
-
-    val client = FakeHttpClient(response.toJson)
-    val result = Await.result(CustomerBankAccountApi(client).update(response.entity.id, request.entity), 1.second)
-
-    client.called must equal(true)
-    client.entity[CustomerBankAccountUpdateRequest] must equal(request)
-    client.uri must equal(getQuery(s"/customer_bank_accounts/${response.entity.id}"))
-    client.method must equal(HttpMethods.PUT)
-    result must equal(response.entity)
+  "update a customer bank account" in {
+    val request = load("customer_ba/update_request.json")
+    val response = load("customer_ba/update_response.json")
+    val wrappedRequest = wrap[CustomerBankAccountUpdateRequest](request)
+    val wrappedResponse = wrap[CustomerBankAccount](response)
+    val client = mock[HttpClient]
+    (client.put _).expects(s"/customer_bank_accounts/${wrappedResponse.entity.id}", request).returning(Future { response.right })
+    val result = Await.result(CustomerBankAccountApi(client).update(wrappedResponse.entity.id, wrappedRequest.entity), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
-  "disable a bank account" in {
-    val response = wrap[CustomerBankAccount]("customer_ba/disable_customer_ba.json")
-    val id = response.entity.id
-    val client = FakeHttpClient(response.toJson)
-    val result = Await.result(CustomerBankAccountApi(client).disable(id), 1.second)
-
-    client.called must equal(true)
-    client.uri must equal(getQuery(s"/customer_bank_accounts/$id/actions/disable"))
-    client.method must equal(HttpMethods.POST)
-    result must equal(response.entity)
+  "disable a customer bank account" in {
+    val response = load("customer_ba/disable.json")
+    val wrappedResponse = wrap[CustomerBankAccount](response)
+    val client = mock[HttpClient]
+    (client.post _).expects(s"/customer_bank_accounts/${wrappedResponse.entity.id}/actions/disable", "").returning(Future { response.right })
+    val result = Await.result(CustomerBankAccountApi(client).disable(wrappedResponse.entity.id), 1.second)
+    result must equal(wrappedResponse.entity.right)
   }
-
 }
-

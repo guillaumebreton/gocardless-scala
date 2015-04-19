@@ -1,9 +1,6 @@
 package octalmind.gocardless.api
 
-import octalmind.gocardless.HttpClient
-import octalmind.gocardless.model.CustomerBankAccountProtocol._
-import scala.concurrent.{ ExecutionContext, Future }
-import scala.concurrent.ExecutionContext.Implicits.global
+import octalmind.gocardless.http.HttpClient
 
 /**
  * Creditor bank account API
@@ -12,11 +9,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object CustomerBankAccountApi {
   def apply(implicit client: HttpClient) = new CustomerBankAccountApi()
 }
-class CustomerBankAccountApi(implicit client: HttpClient)
-  extends CommonApi[CustomerBankAccount, CustomerBankAccountCreateRequest, CustomerBankAccountUpdateRequest] {
+class CustomerBankAccountApi(implicit client: HttpClient) extends Api
+  with Get
+  with Create
+  with Update
+  with Disable {
 
-  def url = "/customer_bank_accounts/%s"
+  import octalmind.gocardless.model.CustomerBankAccountProtocol._
+  type Model = CustomerBankAccount
+  type CreateRequest = CustomerBankAccountCreateRequest
+  type UpdateRequest = CustomerBankAccountUpdateRequest
 
-  def disable(id: String): Future[CustomerBankAccount] = post(url.format(s"$id/actions/disable")).map(_.entity)
+  def url = "/customer_bank_accounts/"
 
 }

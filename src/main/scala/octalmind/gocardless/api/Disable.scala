@@ -9,9 +9,9 @@ import octalmind.gocardless.model.WrapperProtocol._
 trait Disable {
   self: Api ⇒
 
-  type UpdateUnmarshaller = String ⇒ Wrapper[Model]
+  type DisableUnmarshaller = String ⇒ Wrapper[Model]
 
-  def disable(id: String)(implicit u: UpdateUnmarshaller): Future[Error \/ Model] = {
+  def disable(id: String)(implicit u: DisableUnmarshaller): Future[Error \/ Model] = {
     client.post(s"$url$id/actions/disable", "").map { data ⇒ data.map(u(_).entity) }
   }
 }
