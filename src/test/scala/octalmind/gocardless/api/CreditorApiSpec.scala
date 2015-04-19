@@ -30,10 +30,7 @@ class CreditorApiSpec extends ApiSpec {
     val map = Map(
       "after" -> "CU1",
       "before" -> "CU2",
-      "created_at_gt" -> date,
-      "created_at_gte" -> date,
-      "created_at_lt" -> date,
-      "created_at_lte" -> date)
+      "limit" -> 50)
     val client = mock[HttpClient]
     (client.get _).expects("/creditors/", map).returning(Future { response.right })
     val result = Await.result(CreditorApi(client).list(map), 1.second)
