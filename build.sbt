@@ -20,7 +20,13 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.7",
   "org.joda" % "joda-convert" % "1.7",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "org.slf4j" % "slf4j-api" % "1.7.12"
+  "org.slf4j" % "slf4j-api" % "1.7.12",
+"org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
+  "org.scalaz" %% "scalaz-core" % "7.1.1",
+
+  "com.typesafe.akka" %% "akka-http-core-experimental" % "1.0-M5",
+  "com.typesafe.akka" %% "akka-http-experimental" % "1.0-M5"
+
 )
 
 scalacOptions ++= Seq(
