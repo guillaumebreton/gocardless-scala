@@ -1,11 +1,11 @@
 package octalmind.gocardless.model
 
 import spray.json._
-import org.joda.time._
+import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 
 /*
- * Date time protocol to convert and read jodatime datiem
+ * Date time protocol to convert and read jodatime datetime
  * from Json
  */
 object DateTimeProtocol extends DefaultJsonProtocol {
@@ -19,6 +19,7 @@ object DateTimeProtocol extends DefaultJsonProtocol {
 
     def read(value: JsValue) = value match {
       case JsString(v) ⇒ fmt.parseDateTime(v)
+      case JsNull      ⇒ null
       case _           ⇒ deserializationError("Datetime expected")
     }
   }
