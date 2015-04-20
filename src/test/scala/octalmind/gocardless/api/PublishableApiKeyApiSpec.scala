@@ -24,7 +24,7 @@ class PublishableApiKeyApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of publish api keys" in {
-    val response = load("publishable_key/list.json")
+    val response = load("publishable_keys/list.json")
     val cursorResponse = cursor[PublishableApiKey](response)
     val date = new DateTime()
     val map = Map(
@@ -39,7 +39,7 @@ class PublishableApiKeyApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single publish api key" in {
-    val response = load("publishable_key/get.json")
+    val response = load("publishable_keys/get.json")
     val wrappedResponse = wrap[PublishableApiKey](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -48,8 +48,8 @@ class PublishableApiKeyApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a publish api key" in {
-    val request = load("publishable_key/create_request.json")
-    val response = load("publishable_key/create_response.json")
+    val request = load("publishable_keys/create_request.json")
+    val response = load("publishable_keys/create_response.json")
     val wrappedRequest = wrap[PublishableApiKeyRequest](request)
     val wrappedResponse = wrap[PublishableApiKey](response)
     val client = mock[HttpClient]
@@ -58,8 +58,8 @@ class PublishableApiKeyApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "update a publish api key" in {
-    val request = load("publishable_key/update_request.json")
-    val response = load("publishable_key/update_response.json")
+    val request = load("publishable_keys/update_request.json")
+    val response = load("publishable_keys/update_response.json")
     val wrappedRequest = wrap[PublishableApiKeyRequest](request)
     val wrappedResponse = wrap[PublishableApiKey](response)
     val client = mock[HttpClient]
@@ -68,7 +68,7 @@ class PublishableApiKeyApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "disable a publish api key" in {
-    val response = load("publishable_key/disable.json")
+    val response = load("publishable_keys/disable.json")
     val wrappedResponse = wrap[PublishableApiKey](response)
     val client = mock[HttpClient]
     (client.post _).expects(s"/publishable_api_keys/${wrappedResponse.entity.id}/actions/disable", "").returning(Future { response.right })

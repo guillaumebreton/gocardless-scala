@@ -25,7 +25,7 @@ class PaymentApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of payments" in {
-    val response = load("payment/list.json")
+    val response = load("payments/list.json")
     val cursorResponse = cursor[Payment](response)
     val date = new DateTime()
     val map = Map(
@@ -48,7 +48,7 @@ class PaymentApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single payment" in {
-    val response = load("payment/get.json")
+    val response = load("payments/get.json")
     val wrappedResponse = wrap[Payment](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -57,8 +57,8 @@ class PaymentApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a payment" in {
-    val request = load("payment/create_request.json")
-    val response = load("payment/create_response.json")
+    val request = load("payments/create_request.json")
+    val response = load("payments/create_response.json")
     val wrappedRequest = wrap[PaymentCreateRequest](request)
     val wrappedResponse = wrap[Payment](response)
     val client = mock[HttpClient]
@@ -67,8 +67,8 @@ class PaymentApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "update a payment" in {
-    val request = load("payment/update_request.json")
-    val response = load("payment/update_response.json")
+    val request = load("payments/update_request.json")
+    val response = load("payments/update_response.json")
     val wrappedRequest = wrap[PaymentUpdateRequest](request)
     val wrappedResponse = wrap[Payment](response)
     val client = mock[HttpClient]
@@ -77,8 +77,8 @@ class PaymentApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "cancel a payment" in {
-    val request = load("payment/cancel_request.json")
-    val response = load("payment/cancel_response.json")
+    val request = load("payments/cancel_request.json")
+    val response = load("payments/cancel_response.json")
     val wrappedRequest = request.parseJson.convertTo[PaymentCancelRequest]
     val wrappedResponse = wrap[Payment](response)
     val client = mock[HttpClient]
@@ -87,8 +87,8 @@ class PaymentApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "retry a payment" in {
-    val request = load("payment/retry_request.json")
-    val response = load("payment/retry_response.json")
+    val request = load("payments/retry_request.json")
+    val response = load("payments/retry_response.json")
     val wrappedRequest = request.parseJson.convertTo[PaymentRetryRequest]
     val wrappedResponse = wrap[Payment](response)
     val client = mock[HttpClient]

@@ -26,7 +26,7 @@ class MandateApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of mandates" in {
-    val response = load("mandate/list.json")
+    val response = load("mandates/list.json")
     val cursorResponse = cursor[Mandate](response)
     val date = new DateTime()
     val map = Map(
@@ -44,7 +44,7 @@ class MandateApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single mandate" in {
-    val response = load("mandate/get.json")
+    val response = load("mandates/get.json")
     val wrappedResponse = wrap[Mandate](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -53,8 +53,8 @@ class MandateApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a mandate" in {
-    val request = load("mandate/create_request.json")
-    val response = load("mandate/create_response.json")
+    val request = load("mandates/create_request.json")
+    val response = load("mandates/create_response.json")
     val wrappedRequest = wrap[MandateCreateRequest](request)
     val wrappedResponse = wrap[Mandate](response)
     val client = mock[HttpClient]
@@ -63,8 +63,8 @@ class MandateApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "update a mandate" in {
-    val request = load("mandate/update_request.json")
-    val response = load("mandate/update_response.json")
+    val request = load("mandates/update_request.json")
+    val response = load("mandates/update_response.json")
     val wrappedRequest = wrap[MandateUpdateRequest](request)
     val wrappedResponse = wrap[Mandate](response)
     val client = mock[HttpClient]
@@ -73,8 +73,8 @@ class MandateApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "cancel a mandate" in {
-    val request = load("mandate/cancel_request.json")
-    val response = load("mandate/cancel_response.json")
+    val request = load("mandates/cancel_request.json")
+    val response = load("mandates/cancel_response.json")
     val wrappedRequest = request.parseJson.convertTo[MandateCancelRequest]
     val wrappedResponse = wrap[Mandate](response)
     val client = mock[HttpClient]
@@ -83,8 +83,8 @@ class MandateApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "reinstate a mandate" in {
-    val request = load("mandate/reinstate_request.json")
-    val response = load("mandate/reinstate_response.json")
+    val request = load("mandates/reinstate_request.json")
+    val response = load("mandates/reinstate_response.json")
     val wrappedRequest = request.parseJson.convertTo[MandateReinstateRequest]
     val wrappedResponse = wrap[Mandate](response)
     val client = mock[HttpClient]

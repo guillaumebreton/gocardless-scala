@@ -25,7 +25,7 @@ class PayoutApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of payouts" in {
-    val response = load("payout/list.json")
+    val response = load("payouts/list.json")
     val cursorResponse = cursor[Payout](response)
     val map = Map(
       "after" -> "BA122",
@@ -37,7 +37,7 @@ class PayoutApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single payout" in {
-    val response = load("payout/get.json")
+    val response = load("payouts/get.json")
     val wrappedResponse = wrap[Payout](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]

@@ -25,8 +25,8 @@ class RedirectFlowApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "create a redirect flow" in {
-    val request = load("redirect_flow/create_request.json")
-    val response = load("redirect_flow/create_response.json")
+    val request = load("redirect_flows/create_request.json")
+    val response = load("redirect_flows/create_response.json")
     val wrappedRequest = wrap[RedirectFlowCreateRequest](request)
     val wrappedResponse = wrap[RedirectFlow](response)
     val client = mock[HttpClient]
@@ -35,7 +35,7 @@ class RedirectFlowApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "get a single redirect flow" in {
-    val response = load("redirect_flow/get.json")
+    val response = load("redirect_flows/get.json")
     val wrappedResponse = wrap[RedirectFlow](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -44,8 +44,8 @@ class RedirectFlowApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "complete a redirect flow" in {
-    val request = load("redirect_flow/complete_request.json")
-    val response = load("redirect_flow/complete_response.json")
+    val request = load("redirect_flows/complete_request.json")
+    val response = load("redirect_flows/complete_response.json")
     val wrappedRequest = request.parseJson.convertTo[RedirectFlowCompleteRequest]
     val wrappedResponse = wrap[RedirectFlow](response)
     val client = mock[HttpClient]

@@ -24,7 +24,7 @@ class CustomerBankAccountApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of customer bank accounts" in {
-    val response = load("customer_ba/list.json")
+    val response = load("customer_bas/list.json")
     val cursorResponse = cursor[CustomerBankAccount](response)
     val date = new DateTime()
     val map = Map(
@@ -39,7 +39,7 @@ class CustomerBankAccountApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single customer bank account" in {
-    val response = load("customer_ba/get.json")
+    val response = load("customer_bas/get.json")
     val wrappedResponse = wrap[CustomerBankAccount](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -48,8 +48,8 @@ class CustomerBankAccountApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a customer bank account" in {
-    val request = load("customer_ba/create_request.json")
-    val response = load("customer_ba/create_response.json")
+    val request = load("customer_bas/create_request.json")
+    val response = load("customer_bas/create_response.json")
     val wrappedRequest = wrap[CustomerBankAccountCreateRequest](request)
     val wrappedResponse = wrap[CustomerBankAccount](response)
     val client = mock[HttpClient]
@@ -58,8 +58,8 @@ class CustomerBankAccountApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "update a customer bank account" in {
-    val request = load("customer_ba/update_request.json")
-    val response = load("customer_ba/update_response.json")
+    val request = load("customer_bas/update_request.json")
+    val response = load("customer_bas/update_response.json")
     val wrappedRequest = wrap[CustomerBankAccountUpdateRequest](request)
     val wrappedResponse = wrap[CustomerBankAccount](response)
     val client = mock[HttpClient]
@@ -68,7 +68,7 @@ class CustomerBankAccountApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "disable a customer bank account" in {
-    val response = load("customer_ba/disable.json")
+    val response = load("customer_bas/disable.json")
     val wrappedResponse = wrap[CustomerBankAccount](response)
     val client = mock[HttpClient]
     (client.post _).expects(s"/customer_bank_accounts/${wrappedResponse.entity.id}/actions/disable", "").returning(Future { response.right })
