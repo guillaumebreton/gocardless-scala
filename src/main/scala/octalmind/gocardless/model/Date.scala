@@ -12,10 +12,9 @@ import org.joda.time.format.ISODateTimeFormat
 object DateProtocol extends DefaultJsonProtocol {
 
   implicit object DateJsonFormat extends RootJsonFormat[LocalDate] {
-    val fmt = ISODateTimeFormat.localDateParser()
 
     def write(d: LocalDate) = {
-      JsString(fmt.print(d))
+      JsString(d.toString())
     }
 
     def read(value: JsValue) = value match {
