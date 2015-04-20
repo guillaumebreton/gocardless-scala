@@ -24,7 +24,7 @@ class CreditorApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of creditors" in {
-    val response = load("creditors/list_creditors.json")
+    val response = load("creditors/list.json")
     val cursorResponse = cursor[Creditor](response)
     val date = new DateTime()
     val map = Map(
@@ -37,7 +37,7 @@ class CreditorApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single customer" in {
-    val response = load("creditors/get_creditor.json")
+    val response = load("creditors/get.json")
     val wrappedResponse = wrap[Creditor](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -46,8 +46,8 @@ class CreditorApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a customer" in {
-    val request = load("creditors/create_creditor_request.json")
-    val response = load("creditors/create_creditor_response.json")
+    val request = load("creditors/create_request.json")
+    val response = load("creditors/create_response.json")
     val wrappedRequest = wrap[CreditorCreateRequest](request)
     val wrappedResponse = wrap[Creditor](response)
     val client = mock[HttpClient]
@@ -56,8 +56,8 @@ class CreditorApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "update a customer" in {
-    val request = load("creditors/update_creditor_request.json")
-    val response = load("creditors/update_creditor_response.json")
+    val request = load("creditors/update_request.json")
+    val response = load("creditors/update_response.json")
     val wrappedRequest = wrap[CreditorUpdateRequest](request)
     val wrappedResponse = wrap[Creditor](response)
     val id = wrappedResponse.entity.id
