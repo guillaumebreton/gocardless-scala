@@ -31,7 +31,7 @@ object CreditorBankAccountProtocol extends DefaultJsonProtocol {
     set_as_default_payout_account: Option[Boolean],
     links: CreditorBankAccountLinks)
 
-  implicit var creditorBankAccountLinks = jsonFormat1(CreditorBankAccountLinks.apply)
-  implicit var creditorBankAccount = jsonFormat9(CreditorBankAccount.apply)
-  implicit var creditorBankAccountCreateRequest = jsonFormat9(CreditorBankAccountCreateRequest.apply)
+  implicit val creditorBankAccountLinks = jsonFormat1(CreditorBankAccountLinks.apply)
+  implicit val creditorBankAccount = jsonFormat9(CreditorBankAccount.apply)
+  implicit val creditorBankAccountCreateRequest = jsonFormat9(CreditorBankAccountCreateRequest.apply)
 }

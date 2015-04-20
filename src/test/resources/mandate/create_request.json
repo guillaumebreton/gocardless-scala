@@ -1,0 +1,12 @@
+{
+  "mandates": {
+    "scheme": "bacs",
+    "metadata": {
+      "contract": "ABCD1234"
+    },
+    "links": {
+      "creditor": "CR123",
+      "customer_bank_account": "BA123"
+    }
+  }
+}
