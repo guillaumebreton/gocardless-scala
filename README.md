@@ -1,5 +1,4 @@
-![Travis ci image](https://travis-ci.org/guillaumebreton/gocardless-scala.svg?branch=develop)
-[![Codacy Badge](https://www.codacy.com/project/badge/cd61c33c70de47f1b707655e774ad8b3](https://www.codacy.com/app/breton-gy/gocardless-scala)
+![Travis ci image](https://travis-ci.org/guillaumebreton/gocardless-scala.svg?branch=develop) ![Codacy Badge](https://www.codacy.com/project/badge/cd61c33c70de47f1b707655e774ad8b3)
 gocardless-scala
 ================
 
