@@ -23,7 +23,7 @@ class CustomerApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of customers" in {
-    val response = load("customers/list_customers.json")
+    val response = load("customers/list.json")
     val cursorResponse = cursor[Customer](response)
     val date = new DateTime()
     val map = Map(
@@ -39,7 +39,7 @@ class CustomerApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single customer" in {
-    val response = load("customers/get_customer.json")
+    val response = load("customers/get.json")
     val wrappedResponse = wrap[Customer](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -48,8 +48,8 @@ class CustomerApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a customer" in {
-    val request = load("customers/create_customer_request.json")
-    val response = load("customers/create_customer_response.json")
+    val request = load("customers/create_request.json")
+    val response = load("customers/create_response.json")
     val wrappedRequest = wrap[CustomerRequest](request)
     val wrappedResponse = wrap[Customer](response)
     val client = mock[HttpClient]
@@ -58,8 +58,8 @@ class CustomerApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "update a customer" in {
-    val request = load("customers/update_customer_request.json")
-    val response = load("customers/update_customer_response.json")
+    val request = load("customers/update_request.json")
+    val response = load("customers/update_response.json")
     val wrappedRequest = wrap[CustomerRequest](request)
     val wrappedResponse = wrap[Customer](response)
     val id = wrappedResponse.entity.id

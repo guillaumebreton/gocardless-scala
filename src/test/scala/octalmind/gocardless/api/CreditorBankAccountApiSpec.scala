@@ -23,7 +23,7 @@ class CreditorBankAccountApiSpec extends ApiSpec {
   val emptyQuery = Map[String, Any]()
 
   "return the list of creditor bank accounts" in {
-    val response = load("creditor_ba/list.json")
+    val response = load("creditor_bas/list.json")
     val cursorResponse = cursor[CreditorBankAccount](response)
     val date = new DateTime()
     val map = Map(
@@ -38,7 +38,7 @@ class CreditorBankAccountApiSpec extends ApiSpec {
     result must equal(cursorResponse.right)
   }
   "get a single creditor bank account" in {
-    val response = load("creditor_ba/get.json")
+    val response = load("creditor_bas/get.json")
     val wrappedResponse = wrap[CreditorBankAccount](response)
     val id = wrappedResponse.entity.id
     val client = mock[HttpClient]
@@ -47,8 +47,8 @@ class CreditorBankAccountApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "create a creditor bank account" in {
-    val request = load("creditor_ba/create_request.json")
-    val response = load("creditor_ba/create_response.json")
+    val request = load("creditor_bas/create_request.json")
+    val response = load("creditor_bas/create_response.json")
     val wrappedRequest = wrap[CreditorBankAccountCreateRequest](request)
     val wrappedResponse = wrap[CreditorBankAccount](response)
     val client = mock[HttpClient]
@@ -57,7 +57,7 @@ class CreditorBankAccountApiSpec extends ApiSpec {
     result must equal(wrappedResponse.entity.right)
   }
   "disable a creditor bank account" in {
-    val response = load("creditor_ba/disable.json")
+    val response = load("creditor_bas/disable.json")
     val wrappedResponse = wrap[CreditorBankAccount](response)
     val client = mock[HttpClient]
     (client.post _).expects(s"/creditor_bank_accounts/${wrappedResponse.entity.id}/actions/disable", "").returning(Future { response.right })

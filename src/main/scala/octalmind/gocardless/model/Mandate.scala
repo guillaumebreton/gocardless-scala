@@ -5,6 +5,7 @@ import spray.json._
 
 import DateTimeProtocol._
 import DateProtocol._
+import MetadataProtocol._
 
 object MandateProtocol extends DefaultJsonProtocol {
 
@@ -28,18 +29,15 @@ object MandateProtocol extends DefaultJsonProtocol {
     metadata: Option[Map[String, String]] = None,
     links: MandateLinks)
 
-  case class MetaData(
-    metadata: Map[String, String])
   case class MandateUpdateRequest(
     metadata: Map[String, String])
 
-  case class MandateCancelRequest(data: MetaData)
+  case class MandateCancelRequest(data: Metadata)
 
-  case class MandateReinstateRequest(data: MetaData)
+  case class MandateReinstateRequest(data: Metadata)
 
   implicit val mandateLinks = jsonFormat2(MandateLinks.apply)
   implicit val mandate = jsonFormat8(Mandate.apply)
-  implicit val metadata = jsonFormat1(MetaData.apply)
   implicit val mandateCreateRequest = jsonFormat4(MandateCreateRequest.apply)
   implicit val mandateUpdateRequest = jsonFormat1(MandateUpdateRequest.apply)
   implicit val mandateCancelRequest = jsonFormat1(MandateCancelRequest.apply)

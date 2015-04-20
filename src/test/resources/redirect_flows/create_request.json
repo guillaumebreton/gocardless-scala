@@ -1,0 +1,10 @@
+{
+  "redirect_flows": {
+    "description": "Wine boxes",
+    "session_token": "SESS_wSs0uGYMISxzqOBq",
+    "success_redirect_url": "https://example.com/pay/confirm",
+    "links" : {
+      "creditor": "CR123"
+    }
+  }
+}

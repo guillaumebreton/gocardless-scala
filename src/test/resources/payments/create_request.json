@@ -1,0 +1,14 @@
+{
+  "payments": {
+    "amount": 100,
+    "currency": "GBP",
+    "charge_date": "2014-05-19",
+    "reference": "WINEBOX001",
+    "metadata": {
+      "order_dispatch_date": "2014-05-22"
+    },
+    "links": {
+      "mandate": "MD123"
+    }
+  }
+}
