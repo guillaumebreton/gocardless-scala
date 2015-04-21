@@ -10,6 +10,7 @@ object CustomerBankAccountApi {
   def apply(implicit client: HttpClient) = new CustomerBankAccountApi()
 }
 class CustomerBankAccountApi(implicit client: HttpClient) extends Api
+  with List
   with Get
   with Create
   with Update

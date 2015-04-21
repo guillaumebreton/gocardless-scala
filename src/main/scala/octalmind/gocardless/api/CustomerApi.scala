@@ -8,7 +8,11 @@ object CustomerApi {
   def apply(implicit client: HttpClient) = new CustomerApi()
 
 }
-class CustomerApi(implicit client: HttpClient) extends Api with Get with Create with Update {
+class CustomerApi(implicit client: HttpClient) extends Api
+  with List
+  with Get
+  with Create
+  with Update {
 
   import octalmind.gocardless.model.CustomerProtocol._
   type Model = Customer

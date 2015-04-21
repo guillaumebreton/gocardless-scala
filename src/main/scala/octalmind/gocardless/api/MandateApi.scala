@@ -15,7 +15,12 @@ object MandateApi {
   def apply(implicit client: HttpClient) = new MandateApi()
 
 }
-class MandateApi(implicit client: HttpClient) extends Api with Get with Create with Update with Cancel {
+class MandateApi(implicit client: HttpClient) extends Api
+  with List
+  with Get
+  with Create
+  with Update
+  with Cancel {
 
   import octalmind.gocardless.model.MandateProtocol._
   type Model = Mandate

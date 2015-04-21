@@ -9,7 +9,11 @@ import octalmind.gocardless.model.CreditorBankAccountProtocol._
 object CreditorBankAccountApi {
   def apply(implicit client: HttpClient) = new CreditorBankAccountApi()
 }
-class CreditorBankAccountApi(implicit client: HttpClient) extends Api with Get with Create with Disable {
+class CreditorBankAccountApi(implicit client: HttpClient) extends Api
+  with List
+  with Get
+  with Create
+  with Disable {
 
   type Model = CreditorBankAccount
   type CreateRequest = CreditorBankAccountCreateRequest

@@ -11,6 +11,7 @@ object ApiKeyApi {
   def apply(implicit client: HttpClient) = new ApiKeyApi()
 }
 class ApiKeyApi(implicit client: HttpClient) extends Api
+  with List
   with Get
   with Update
   with Create

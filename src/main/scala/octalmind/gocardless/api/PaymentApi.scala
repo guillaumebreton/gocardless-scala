@@ -15,7 +15,12 @@ object PaymentApi {
   def apply(implicit client: HttpClient) = new PaymentApi()
 
 }
-class PaymentApi(implicit client: HttpClient) extends Api with Get with Create with Update with Cancel {
+class PaymentApi(implicit client: HttpClient) extends Api
+  with List
+  with Get
+  with Create
+  with Update
+  with Cancel {
 
   import octalmind.gocardless.model.PaymentProtocol._
   type Model = Payment

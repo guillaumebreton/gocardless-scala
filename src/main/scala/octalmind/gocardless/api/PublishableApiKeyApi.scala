@@ -10,6 +10,7 @@ object PublishableApiKeyApi {
   def apply(implicit client: HttpClient) = new PublishableApiKeyApi()
 }
 class PublishableApiKeyApi(implicit client: HttpClient) extends Api
+  with List
   with Get
   with Create
   with Update
