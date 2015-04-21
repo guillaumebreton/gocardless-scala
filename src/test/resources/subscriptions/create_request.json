@@ -1,0 +1,15 @@
+{
+  "subscriptions": {
+    "amount": 2500,
+    "currency": "GBP",
+    "name": "Monthly Magazine",
+    "interval_unit": "monthly",
+    "day_of_month":  1,
+    "metadata": {
+      "order_no": "ABCD1234"
+    },
+    "links": {
+      "mandate": "MA123"
+    }
+  }
+}

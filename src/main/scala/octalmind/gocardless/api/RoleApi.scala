@@ -3,7 +3,7 @@ package octalmind.gocardless.api
 import octalmind.gocardless.http.HttpClient
 import octalmind.gocardless.model.RoleProtocol._
 /**
- * Creditor bank account API
+ * Role API
  */
 
 object RoleApi {

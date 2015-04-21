@@ -23,7 +23,7 @@ class RoleApiSpec extends ApiSpec {
 
   val emptyQuery = Map[String, Any]()
 
-  "return the list of role" in {
+  "return the list of roles" in {
     val response = load("roles/list.json")
     val cursorResponse = cursor[Role](response)
     val date = new DateTime()
