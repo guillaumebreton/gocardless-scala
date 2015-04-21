@@ -1,0 +1,11 @@
+{
+  "users": {
+    "email": "frank@osborne.com",
+    "given_name": "Frank",
+    "family_name": "Osborne",
+    "password": "h17Hwb3$Ra-?7",
+    "links": {
+      "role": "RO123"
+    }
+  }
+}
