@@ -1,0 +1,12 @@
+{
+  "refunds": {
+    "amount": 100,
+    "total_amount_confirmation": 150,
+    "metadata": {
+      "reason": "late delivery"
+    },
+    "links": {
+      "payment": "PM123"
+    }
+  }
+}
