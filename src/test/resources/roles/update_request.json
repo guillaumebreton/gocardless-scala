@@ -1,0 +1,14 @@
+{
+  "roles": {
+    "permissions": [
+      {
+        "resource": "users",
+        "access": "full_access"
+      },
+      {
+        "resource": "customers",
+        "access": "read_only"
+      }
+    ]
+  }
+}

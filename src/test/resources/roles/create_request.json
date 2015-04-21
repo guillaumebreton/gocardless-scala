@@ -1,0 +1,15 @@
+{
+  "roles": {
+    "name": "User manager",
+    "permissions": [
+      {
+        "resource": "users",
+        "access": "full_access"
+      },
+      {
+        "resource": "roles",
+        "access": "read_only"
+      }
+    ]
+  }
+}
