@@ -34,4 +34,8 @@ class MandateApi(implicit client: HttpClient) extends Api
   def reinstate(id: String, request: MandateReinstateRequest)(implicit m: MandateRequestMarshaller, u: MandateUnMarshaller): Future[Error \/ Mandate] = {
     client.post(s"$url$id/actions/reinstate", m(request)).map { data ⇒ data.map(u(_).entity) }
   }
+
+  def getPdf(id: String, language: String): Future[Error \/ Array[Byte]] = {
+    client.getPdf(s"$url$id", language: String)
+  }
 }
