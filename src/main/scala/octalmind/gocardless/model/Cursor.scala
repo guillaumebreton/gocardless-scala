@@ -4,10 +4,7 @@ package octalmind.gocardless.model
 import spray.json._
 import DefaultJsonProtocol._
 
-import spray.client.pipelining._
-import spray.can.Http
 import spray.json._
-import spray.httpx.SprayJsonSupport._
 
 import scala.concurrent.{ ExecutionContext, Future }
 import octalmind.gocardless.Utils

@@ -27,15 +27,11 @@ class GoCardlessVersion(version: String) extends CustomHeader {
 
 }
 
-class AkkaHttpClient extends HttpClient {
+class AkkaHttpClient(baseUrl: String, key: String, id: String) extends HttpClient {
   implicit val system = ActorSystem("gocardless-system")
 
   implicit val materializer = ActorFlowMaterializer()
-  val configuration = ConfigFactory.load()
-  val version = configuration.getString("gocardless.api-version")
-  val key = configuration.getString("gocardless.api-key")
-  val id = configuration.getString("gocardless.api-id")
-  val baseUrl = configuration.getString("gocardless.base-url")
+  val version = "2014-11-03"
 
   val httpClient = Http(system).outgoingConnection(baseUrl, 80)
 

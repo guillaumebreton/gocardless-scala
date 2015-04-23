@@ -10,11 +10,12 @@ import org.joda.time._
 import octalmind.gocardless.model.CustomerProtocol._
 import octalmind.gocardless.model.WrapperProtocol._
 import octalmind.gocardless.model.CursorProtocol._
-import spray.json._
 
 import org.scalamock.scalatest.MockFactory
 import spray.json._
 import DefaultJsonProtocol._
+
+import akka.http.model.Uri
 
 trait ApiSpec extends WordSpec with MustMatchers with MockFactory {
 
@@ -30,7 +31,6 @@ trait ApiSpec extends WordSpec with MustMatchers with MockFactory {
 
   //user api one
   def getQuery(url: String, map: Map[String, Any] = Map()): String = {
-    import spray.http._
     val stringQuery = map.map(k ⇒ (k._1, k._2.toString()))
     Uri(url).copy(query = Uri.Query(stringQuery)).toString()
   }
