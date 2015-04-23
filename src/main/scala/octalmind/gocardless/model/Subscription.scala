@@ -12,12 +12,12 @@ object SubscriptionProtocol extends DefaultJsonProtocol {
 
   case class UpcomingPayment(
     charge_date: LocalDate,
-    amount: Long)
+    amount: Double)
   case class SubscriptionLinks(
     mandate: String)
   case class Subscription(
     id: String,
-    amount: Long,
+    amount: Double,
     created_at: DateTime,
     count: Option[Int],
     currency: String,
@@ -34,7 +34,7 @@ object SubscriptionProtocol extends DefaultJsonProtocol {
     upcoming_payments: List[UpcomingPayment])
 
   case class SubscriptionCreateRequest(
-    amount: Long,
+    amount: Double,
     count: Option[Int],
     currency: String,
     day_of_month: Option[Int],

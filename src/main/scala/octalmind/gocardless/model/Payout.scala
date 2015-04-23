@@ -14,7 +14,7 @@ object PayoutProtocol extends DefaultJsonProtocol {
     creditor_bank_account: String)
   case class Payout(
     id: String,
-    amount: Long,
+    amount: Double,
     created_at: DateTime,
     currency: String,
     reference: Option[String],

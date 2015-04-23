@@ -10,15 +10,15 @@ object RefundProtocol extends DefaultJsonProtocol {
     payment: String)
   case class Refund(
     id: String,
-    amount: Long,
+    amount: Double,
     currency: String,
     created_at: DateTime,
     metadata: Option[Map[String, String]],
     links: RefundLinks)
 
   case class RefundCreateRequest(
-    amount: Long,
-    total_amount_confirmation: Long,
+    amount: Double,
+    total_amount_confirmation: Double,
     metadata: Option[Map[String, String]] = None,
     links: RefundLinks)
   case class RefundUpdateRequest(

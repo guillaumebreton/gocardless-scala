@@ -17,8 +17,8 @@ object PaymentProtocol extends DefaultJsonProtocol {
 
   case class Payment(
     id: String,
-    amount: Long,
-    amount_refunded: Option[Long],
+    amount: Double,
+    amount_refunded: Option[Double],
     charge_date: Option[LocalDate],
     created_at: DateTime,
     currency: String,
@@ -29,7 +29,7 @@ object PaymentProtocol extends DefaultJsonProtocol {
     links: PaymentLinks)
 
   case class PaymentCreateRequest(
-    amount: Long,
+    amount: Double,
     charge_date: Option[LocalDate],
     currency: String,
     description: Option[String],

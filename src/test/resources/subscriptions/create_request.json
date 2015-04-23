@@ -1,6 +1,6 @@
 {
   "subscriptions": {
-    "amount": 2500,
+    "amount": 2500.0,
     "currency": "GBP",
     "name": "Monthly Magazine",
     "interval_unit": "monthly",

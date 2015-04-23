@@ -1,7 +1,7 @@
 {
   "refunds": {
-    "amount": 100,
-    "total_amount_confirmation": 150,
+    "amount": 100.0,
+    "total_amount_confirmation": 150.0,
     "metadata": {
       "reason": "late delivery"
     },

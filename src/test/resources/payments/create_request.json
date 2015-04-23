@@ -1,6 +1,6 @@
 {
   "payments": {
-    "amount": 100,
+    "amount": 100.0,
     "currency": "GBP",
     "charge_date": "2014-05-19",
     "reference": "WINEBOX001",
