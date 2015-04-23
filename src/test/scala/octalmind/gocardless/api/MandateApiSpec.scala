@@ -43,6 +43,14 @@ class MandateApiSpec extends ApiSpec {
     val result = Await.result(MandateApi(client).list(map), 1.second)
     result must equal(cursorResponse.right)
   }
+  "get a single mandate pdf" in {
+    val response = Array[Byte](1, 2, 3)
+    val id = "MA123"
+    val client = mock[HttpClient]
+    (client.getPdf _).expects(getQuery(s"/mandates/$id"), "fr").returning(Future { response.right })
+    val result = Await.result(MandateApi(client).getPdf(id, "fr"), 1.second)
+    result must equal(response.right)
+  }
   "get a single mandate" in {
     val response = load("mandates/get.json")
     val wrappedResponse = wrap[Mandate](response)

@@ -11,7 +11,11 @@ trait HttpClient {
 
   def get(url: String, query: Map[String, Any]): Future[Error \/ String]
 
+  def getPdf(url: String, languate: String): Future[Error \/ Array[Byte]]
+
   def post(url: String, entity: String): Future[Error \/ String]
+
+  def postPdf(url: String, entity: String, language: String): Future[Error \/ Array[Byte]]
 
   def put(url: String, entity: String): Future[Error \/ String]
 

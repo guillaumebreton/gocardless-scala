@@ -16,6 +16,7 @@ import Scalaz._
 import spray.json._
 import DefaultJsonProtocol._
 import octalmind.gocardless.model.ErrorProtocol._
+import akka.util.ByteString
 
 object GoCardlessVersion {
   def apply(version: String): GoCardlessVersion = new GoCardlessVersion(version)
@@ -40,10 +41,11 @@ class AkkaHttpClient extends HttpClient {
 
   val jsonType = MediaType.custom("application/json")
 
+  val pdfType = MediaType.custom("application/pdf")
+
   val request = HttpRequest().withHeaders(
     GoCardlessVersion(version),
-    Authorization(BasicHttpCredentials(id, key)),
-    Accept(MediaRange(jsonType)))
+    Authorization(BasicHttpCredentials(id, key)))
 
   private[this] def getUri(url: String, query: Map[String, Any] = Map()): Uri = {
     Uri.from(path = url, query = Uri.Query(query.mapValues(_.toString())))
@@ -52,19 +54,40 @@ class AkkaHttpClient extends HttpClient {
   def close(): Unit = {}
 
   def get(url: String, query: Map[String, Any]): Future[Error \/ String] = {
-    val source = Source.single(HttpRequest(uri = getUri(url, query))).via(httpClient)
+    val req = request.withMethod(HttpMethods.GET).withUri(getUri(url))
+    val source = Source.single(req).via(httpClient)
     source.mapAsync(convert(_)).runWith(Sink.head)
   }
 
-  def post(url: String, entity: String): Future[Error \/ String] = {
-    val request = HttpRequest(method = HttpMethods.POST, uri = getUri(url), entity = HttpEntity(ContentType(jsonType), entity))
-    val source = Source.single(request)
+  def getPdf(url: String, language: String): Future[Error \/ Array[Byte]] = {
+    val lang = `Accept-Language`(Language(language))
+    val accept = Accept(MediaRange(pdfType))
+    val req = request.withMethod(HttpMethods.GET).withUri(getUri(url)).withHeaders(lang, accept)
+    val source = Source.single(req).via(httpClient)
+    source.mapAsync(convertToBytes(_)).runWith(Sink.head)
+  }
+  def post(url: String, body: String): Future[Error \/ String] = {
+    val entity = HttpEntity(ContentType(jsonType), body)
+    val req = request.withMethod(HttpMethods.POST).withUri(getUri(url)).withHeaders(Accept(jsonType))
+    val source = Source.single(req)
     source.via(httpClient).mapAsync(convert(_)).runWith(Sink.head)
   }
 
-  def put(url: String, entity: String): Future[Error \/ String] = {
-    val request = HttpRequest(method = HttpMethods.PUT, uri = getUri(url), entity = HttpEntity(ContentType(jsonType), entity))
-    val source = Source.single(request)
+  def postPdf(url: String, body: String, language: String): Future[Error \/ Array[Byte]] = {
+
+    val lang = `Accept-Language`(Language(language))
+    val accept = Accept(MediaRange(pdfType))
+    val entity = HttpEntity(ContentType(jsonType), body)
+    val req = request.withMethod(HttpMethods.POST).withUri(getUri(url)).withHeadersAndEntity(List(lang, accept), entity)
+    val source = Source.single(req)
+    source.via(httpClient).mapAsync(convertToBytes(_)).runWith(Sink.head)
+  }
+
+  def put(url: String, body: String): Future[Error \/ String] = {
+    val accept = Accept(MediaRange(pdfType))
+    val entity = HttpEntity(ContentType(jsonType), body)
+    val req = request.withMethod(HttpMethods.POST).withUri(getUri(url)).withHeadersAndEntity(List(accept), entity)
+    val source = Source.single(req)
     source.via(httpClient).mapAsync(convert(_)).runWith(Sink.head)
   }
 
@@ -74,6 +97,13 @@ class AkkaHttpClient extends HttpClient {
         case StatusCodes.Success(_) ⇒ data.right
         case _                      ⇒ data.parseJson.convertTo[Error].left
       }
+    }
+  }
+
+  private[this] def convertToBytes(response: HttpResponse): Future[Error \/ Array[Byte]] = {
+    response.status match {
+      case StatusCodes.Success(_) ⇒ Unmarshal(response).to[ByteString].map(_.toArray.right)
+      case _                      ⇒ Unmarshal(response).to[String].map(_.parseJson.convertTo[Error].left)
     }
   }
 
