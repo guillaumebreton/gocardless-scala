@@ -2,18 +2,6 @@
 gocardless-scala
 ================
 
-The scala client library for the GoCardless API
+A scala client library for the GoCardless API using akka-http and spray-json. The client is asynchronous and use 
+scalaz to return disjonction between error and result.
 
-Idea
-====
-
-
-```scala
-import gocardless._
-
-implicit client = Gocardless()
-Customer.all()
-Customer.create("surname" -> "test" ):Future[Customer]
-Customer.update("surname" -> "test1" ):Future[Customer]
-client.close()
-```
