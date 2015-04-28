@@ -5,3 +5,12 @@ gocardless-scala
 A scala client library for the GoCardless API using akka-http and spray-json. The client is asynchronous and use 
 scalaz to return disjonction between error and result.
 
+TODO
+====
+
+- publish scala doc to gh-pages
+- publish to bintray/maven central
+- Enable implicit execution context in each method
+- Create client configuration with "Sandbox" and "production" as constants
+- Add a method next() on cursor
+
